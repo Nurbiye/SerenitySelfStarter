@@ -10,8 +10,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 //import static io.restassured.RestAssured.*;
+import java.util.concurrent.TimeUnit;
+
 import static org.hamcrest.Matchers.is;
 import static net.serenitybdd.rest.SerenityRest.*;
+import static org.hamcrest.Matchers.lessThan;
 
 @SerenityTest
 public class SimpleSpartanTest {
@@ -28,10 +31,12 @@ public class SimpleSpartanTest {
     @DisplayName("Testing GET/api/hello endpoint")
     @Test
     public void testingHelloEndPoint(){
-        when().get("/spartans").
-         then().statusCode(200).
-                contentType(ContentType.TEXT)
-                .body(is("Hello from sparta"));
+        given().auth().basic("admin","admin").accept(ContentType.TEXT).
+        when().get("/hello")
+//         .then().statusCode(200).
+//                contentType(ContentType.TEXT)
+//                .body(is("Hello from sparta"))
+        ;
 
         //Serenity's way of generating some steps for verification
         // in the report using Ensure class:
@@ -47,7 +52,12 @@ public class SimpleSpartanTest {
                 thenResponse -> thenResponse.statusCode(200))
                 .andThat("I got text response",
                         blablaResponse -> blablaResponse.
-                                contentType(ContentType.TEXT) );
+                        contentType(ContentType.TEXT) )
+                .andThat("I got Hello from Sparta" ,
+                        vResponse -> vResponse.body( is("Hello from Sparta") ) )
+                .andThat("I got my response within 2 seconds",
+                        vResponse -> vResponse.time( lessThan(2L), TimeUnit.SECONDS))
+        ;
 
     }
 
