@@ -19,6 +19,7 @@ import static org.hamcrest.Matchers.is;
 
 //@Disabled
 @SerenityTest
+@Disabled
 public class Test_GitHub_Feature {
 
     @DisplayName("This is for GitHub Test1")
