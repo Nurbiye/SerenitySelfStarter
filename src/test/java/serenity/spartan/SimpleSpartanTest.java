@@ -4,22 +4,26 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import net.serenitybdd.junit5.SerenityTest;
 import net.serenitybdd.rest.Ensure;
+import net.serenitybdd.rest.SerenityRest;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import serenity.utility.SpartanUtil;
 
 //import static io.restassured.RestAssured.*;
+import java.lang.reflect.MalformedParameterizedTypeException;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import static org.hamcrest.Matchers.is;
 import static net.serenitybdd.rest.SerenityRest.*;
-import static org.hamcrest.Matchers.lessThan;
+import static org.hamcrest.Matchers.*;
 
 @SerenityTest
 public class SimpleSpartanTest {
     @BeforeAll
     public static void setup(){
+        SerenityRest.rest();
        RestAssured.baseURI = "http://52.90.55.156:8000";
        RestAssured.basePath="/api";
     }
@@ -31,7 +35,7 @@ public class SimpleSpartanTest {
     @DisplayName("Testing GET/api/hello endpoint")
     @Test
     public void testingHelloEndPoint(){
-        given().auth().basic("admin","admin").accept(ContentType.TEXT).
+//        given().auth().basic("admin","admin").accept(ContentType.TEXT).
         when().get("/hello")
 //         .then().statusCode(200).
 //                contentType(ContentType.TEXT)
@@ -55,10 +59,11 @@ public class SimpleSpartanTest {
                         contentType(ContentType.TEXT) )
                 .andThat("I got Hello from Sparta" ,
                         vResponse -> vResponse.body( is("Hello from Sparta") ) )
-                .andThat("I got my response within 2 seconds",
-                        vResponse -> vResponse.time( lessThan(2L), TimeUnit.SECONDS))
+                .andThat("I got my response within 5 seconds",
+                        vResponse -> vResponse.time( lessThan(5L), TimeUnit.SECONDS))
         ;
 
     }
+
 
 }
