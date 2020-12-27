@@ -23,19 +23,19 @@ import static org.hamcrest.Matchers.*;
 public class SimpleSpartanTest {
     @BeforeAll
     public static void setup(){
-        SerenityRest.rest();
        RestAssured.baseURI = "http://52.90.55.156:8000";
        RestAssured.basePath="/api";
     }
     @AfterAll
     public static void cleanUp(){
-        reset();
+        SerenityRest.clear();
+      RestAssured.reset();
     }
 
     @DisplayName("Testing GET/api/hello endpoint")
     @Test
     public void testingHelloEndPoint(){
-//        given().auth().basic("admin","admin").accept(ContentType.TEXT).
+   given().auth().basic("admin","admin").accept(ContentType.TEXT).
         when().get("/hello")
 //         .then().statusCode(200).
 //                contentType(ContentType.TEXT)
@@ -44,12 +44,12 @@ public class SimpleSpartanTest {
 
         //Serenity's way of generating some steps for verification
         // in the report using Ensure class:
-        Ensure.that("Make sure endpoint works" ,
-                response -> response.statusCode(200)
-                        .contentType(ContentType.TEXT)
-                        .body( is("Hello from Sparta") )
-        );
-        //I can comment out above then(). session
+//        Ensure.that("Make sure endpoint works" ,
+//                response -> response.statusCode(200)
+//                        .contentType(ContentType.TEXT)
+//                        .body( is("Hello from Sparta") )
+//        );
+//        //I can comment out above then(). session
 
 
         Ensure.that("Success response was received",

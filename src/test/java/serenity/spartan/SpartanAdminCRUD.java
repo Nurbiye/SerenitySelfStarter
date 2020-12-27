@@ -4,6 +4,7 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import net.serenitybdd.junit5.SerenityTest;
 import net.serenitybdd.rest.Ensure;
+import net.serenitybdd.rest.SerenityRest;
 import org.junit.jupiter.api.*;
 import serenity.utility.SpartanUtil;
 
@@ -29,7 +30,8 @@ public class SpartanAdminCRUD {
     }
     @AfterAll
     public static void cleanUp(){
-        reset();
+        SerenityRest.clear();
+        RestAssured.reset();
     }
 
 
