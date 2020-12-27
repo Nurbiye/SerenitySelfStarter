@@ -6,6 +6,7 @@ import net.serenitybdd.junit5.SerenityTest;
 import net.serenitybdd.rest.Ensure;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static net.serenitybdd.rest.SerenityRest.clear;
@@ -69,7 +70,35 @@ public class ZipToCityEndpointTest {
 
 
 
+        /*
+        * in parameterized test ,
+        * {index}  -->>  to represent iteration number
+        * {arguments} -->>
+        * {methodParameterIndexNumber} -->>
+        *
+        * */
+    @ParameterizedTest(name="Iteration number {index}  zipcode is {arguments}")
+    //-->for getting a nice name
+    @ValueSource(strings = {"22030", "22031", "22032","22034" ,"22035"} )
+    public void testDisplayNameManipulation(String zip){
 
+
+    }
+
+@ParameterizedTest(name="Iteration number {index} Country is {0} , Zipcode is {1}")  //iteration number {index} : reserved keyword for the display name
+    @CsvFileSource(resources = "/country_zip.csv" , numLinesToSkip = 1)
+    public void testCountryZip(String country, int zip){
+
+    given()
+            .pathParam("country",country)
+            .pathParam("zipcode",zip).
+            when()
+            .get("/{country}/{zipcode}");
+
+    Ensure.that("We got successful result",
+            vResponse -> vResponse.statusCode(200));
+
+}
 
     }
 
